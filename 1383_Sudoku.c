@@ -5,7 +5,6 @@ Exercício da plataforma Beecrowd - 1383 (SUDOKU)
 */
 
 #include <stdio.h>
-
 #define TAMANHO 9
 
 // Função para verificar se um vetor de 9 elementos contém todos os números de 1 a 9
