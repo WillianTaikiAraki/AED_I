@@ -7,16 +7,10 @@ Exercício da plataforma Beecrowd - 1383 (SUDOKU)
 #include <stdio.h>
 
 #define TAMANHO 9
-#define MAX_INSTANCIAS 100 // Limite de instâncias de matrizes que o programa pode processar
 
 // Função para verificar se um vetor de 9 elementos contém todos os números de 1 a 9
 int vetor_valido(int *vetor) {
-    int contagem[TAMANHO + 1];
-    
-    // Inicializa o array de contagem com zeros
-    for (int i = 0; i <= TAMANHO; i++) {
-        contagem[i] = 0;
-    }
+    int contagem[TAMANHO + 1] = {0}; // Inicializa o array de contagem com zeros
 
     for (int i = 0; i < TAMANHO; i++) {
         if (vetor[i] < 1 || vetor[i] > 9 || contagem[vetor[i]] > 0) {
@@ -35,7 +29,7 @@ int verifica_linha(int matriz[TAMANHO][TAMANHO]) {
             linha[j] = matriz[i][j];
         }
         if (!vetor_valido(linha)) {
-            return 0;
+            return 0; // Linha inválida
         }
     }
     return 1;
@@ -49,7 +43,7 @@ int verifica_coluna(int matriz[TAMANHO][TAMANHO]) {
             coluna[j] = matriz[j][i];
         }
         if (!vetor_valido(coluna)) {
-            return 0;
+            return 0; // Coluna inválida
         }
     }
     return 1;
@@ -67,7 +61,7 @@ int verifica_submatriz_3x3(int matriz[TAMANHO][TAMANHO]) {
                 }
             }
             if (!vetor_valido(submatriz)) {
-                return 0;
+                return 0; // Submatriz 3x3 inválida
             }
         }
     }
@@ -78,9 +72,10 @@ int main() {
     int n;
     scanf("%d", &n);
 
-    int matrizes[MAX_INSTANCIAS][TAMANHO][TAMANHO];
+    // Para armazenar todas as matrizes de entrada antes de processar
+    int matrizes[n][TAMANHO][TAMANHO];
 
-    // Lê todas as matrizes 9x9
+    // Lê todas as matrizes de entrada
     for (int k = 0; k < n; k++) {
         for (int i = 0; i < TAMANHO; i++) {
             for (int j = 0; j < TAMANHO; j++) {
@@ -89,10 +84,11 @@ int main() {
         }
     }
 
-    // Verifica cada matriz e imprime os resultados
+    // Processa cada matriz após toda a entrada ser lida
     for (int k = 0; k < n; k++) {
         int valido = verifica_linha(matrizes[k]) && verifica_coluna(matrizes[k]) && verifica_submatriz_3x3(matrizes[k]);
 
+        // Imprime o resultado para a instância atual
         printf("Instancia %d\n", k + 1);
         if (valido) {
             printf("SIM\n");
