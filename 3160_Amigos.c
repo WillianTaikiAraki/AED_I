@@ -1,134 +1,136 @@
+//nomes das funcoes e variaveis em PT para facilitar entendimento
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
-#define MAX_NAME_LENGTH 51
+#define TAMANHO_MAX_NOME 51
 
 // Estrutura do nó da lista encadeada
-typedef struct Node {
-    char name[MAX_NAME_LENGTH];
-    struct Node* next;
-} Node;
+typedef struct No {
+    char nome[TAMANHO_MAX_NOME];
+    struct No* proximo;
+} No;
 
 // Função para criar um novo nó
-Node* createNode(const char* name) {
-    Node* newNode = (Node*)malloc(sizeof(Node));
-    strcpy(newNode->name, name);
-    newNode->next = NULL;
-    return newNode;
+No* criarNo(const char* nome) {
+    No* novoNo = (No*)malloc(sizeof(No));
+    strcpy(novoNo->nome, nome);
+    novoNo->proximo = NULL;
+    return novoNo;
 }
 
 // Função para adicionar um nó ao final da lista
-void appendNode(Node** head, const char* name) {
-    Node* newNode = createNode(name);
-    if (*head == NULL) {
-        *head = newNode;
+void adicionarNo(No** cabeca, const char* nome) {
+    No* novoNo = criarNo(nome);
+    if (*cabeca == NULL) {
+        *cabeca = novoNo;
     } else {
-        Node* current = *head;
-        while (current->next != NULL) {
-            current = current->next;
+        No* atual = *cabeca;
+        while (atual->proximo != NULL) {
+            atual = atual->proximo;
         }
-        current->next = newNode;
+        atual->proximo = novoNo;
     }
 }
 
 // Função para inserir uma lista de nós antes de um nó específico
-void insertBefore(Node** head, const char* targetName, Node* newListHead) {
-    if (*head == NULL) return;
+void inserirAntes(No** cabeca, const char* nomeAlvo, No* novaListaCabeca) {
+    if (*cabeca == NULL) return;
 
     // Caso o nó alvo seja o primeiro nó da lista
-    if (strcmp((*head)->name, targetName) == 0) {
-        Node* temp = *head;
-        *head = newListHead;
+    if (strcmp((*cabeca)->nome, nomeAlvo) == 0) {
+        No* temp = *cabeca;
+        *cabeca = novaListaCabeca;
         
         // Encontrar o último nó da nova lista e conectá-lo ao restante da lista
-        Node* current = newListHead;
-        while (current->next != NULL) {
-            current = current->next;
+        No* atual = novaListaCabeca;
+        while (atual->proximo != NULL) {
+            atual = atual->proximo;
         }
-        current->next = temp;
+        atual->proximo = temp;
         return;
     }
 
     // Procurar pelo nó alvo e inserir antes dele
-    Node* current = *head;
-    while (current->next != NULL && strcmp(current->next->name, targetName) != 0) {
-        current = current->next;
+    No* atual = *cabeca;
+    while (atual->proximo != NULL && strcmp(atual->proximo->nome, nomeAlvo) != 0) {
+        atual = atual->proximo;
     }
 
-    if (current->next != NULL) {
-        Node* temp = current->next;
-        current->next = newListHead;
+    if (atual->proximo != NULL) {
+        No* temp = atual->proximo;
+        atual->proximo = novaListaCabeca;
         
         // Encontrar o último nó da nova lista e conectá-lo ao restante da lista
-        Node* lastNode = newListHead;
-        while (lastNode->next != NULL) {
-            lastNode = lastNode->next;
+        No* ultimoNo = novaListaCabeca;
+        while (ultimoNo->proximo != NULL) {
+            ultimoNo = ultimoNo->proximo;
         }
-        lastNode->next = temp;
+        ultimoNo->proximo = temp;
     }
 }
 
 // Função para imprimir a lista de amigos
-void printList(Node* head) {
-    Node* current = head;
-    while (current != NULL) {
-        printf("%s", current->name);
-        if (current->next != NULL) printf(" ");
-        current = current->next;
+void imprimirLista(No* cabeca) {
+    No* atual = cabeca;
+    while (atual != NULL) {
+        printf("%s", atual->nome);
+        if (atual->proximo != NULL) printf(" ");
+        atual = atual->proximo;
     }
     printf("\n");
 }
 
 // Função para liberar a memória da lista
-void freeList(Node* head) {
-    Node* current = head;
-    while (current != NULL) {
-        Node* temp = current;
-        current = current->next;
+void liberarLista(No* cabeca) {
+    No* atual = cabeca;
+    while (atual != NULL) {
+        No* temp = atual;
+        atual = atual->proximo;
         free(temp);
     }
 }
 
 int main() {
-    char name[MAX_NAME_LENGTH];
-    Node* friendList = NULL;
-    Node* newFriendList = NULL;
-    char targetFriend[MAX_NAME_LENGTH];
+    char nome[TAMANHO_MAX_NOME];
+    No* listaAmigos = NULL;
+    No* novaListaAmigos = NULL;
+    char amigoAlvo[TAMANHO_MAX_NOME];
     
     // Leitura da lista atual de amigos
-    while (scanf("%s", name) == 1) {
-        appendNode(&friendList, name);
+    while (scanf("%s", nome) == 1) {
+        adicionarNo(&listaAmigos, nome);
         if (getchar() == '\n') break;
     }
 
     // Leitura da nova lista de amigos
-    while (scanf("%s", name) == 1) {
-        appendNode(&newFriendList, name);
+    while (scanf("%s", nome) == 1) {
+        adicionarNo(&novaListaAmigos, nome);
         if (getchar() == '\n') break;
     }
 
     // Leitura do nome do amigo alvo para indicação
-    scanf("%s", targetFriend);
+    scanf("%s", amigoAlvo);
     
     // Atualizar a lista de amigos conforme a indicação
-    if (strcmp(targetFriend, "nao") == 0) {
+    if (strcmp(amigoAlvo, "nao") == 0) {
         // Caso não haja indicação, adiciona os novos amigos ao final da lista original
-        Node* current = friendList;
-        while (current->next != NULL) {
-            current = current->next;
+        No* atual = listaAmigos;
+        while (atual->proximo != NULL) {
+            atual = atual->proximo;
         }
-        current->next = newFriendList;
+        atual->proximo = novaListaAmigos;
     } else {
         // Caso haja indicação, insere os novos amigos antes do amigo indicado
-        insertBefore(&friendList, targetFriend, newFriendList);
+        inserirAntes(&listaAmigos, amigoAlvo, novaListaAmigos);
     }
 
     // Imprimir a lista de amigos atualizada
-    printList(friendList);
+    imprimirLista(listaAmigos);
 
     // Liberar a memória alocada para as listas
-    freeList(friendList);
+    liberarLista(listaAmigos);
 
     return 0;
 }
