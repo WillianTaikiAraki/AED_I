@@ -54,7 +54,8 @@ double measureTime(void (*sortFunc)(int[], int), int arr[], int n) {
 
 // Funcao principal
 int main() {
-    int sizes[] = {50000, 100000, 150000, 200000, 250000, 300000, 350000, 400000};
+    int sizes[] = {20000, 40000, 60000, 80000, 100000, 120000, 140000, 160000, 180000, 200000, 220000, 240000, 260000, 280000,
+    300000, 320000, 340000, 360000, 380000, 400000};
     int numSizes = sizeof(sizes) / sizeof(sizes[0]);
 
     printf("Teste execucao (em segundos):\n\n");
