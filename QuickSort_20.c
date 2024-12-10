@@ -22,7 +22,7 @@ int Separa (int p, int r, int v[]) {
     return j;
 }
 
-//Funcao principal do QuickSort
+// Funcao principal do QuickSort
 void QuickSort (int p, int r, int v[]) {
     int j;
     if (p < r) {
@@ -33,13 +33,13 @@ void QuickSort (int p, int r, int v[]) {
 }
 
 void wrapperQuickSort(int arr[], int n) {
-    QuickSort(0, n - 1, arr);  // Ajuste no índice final (n-1)
+    QuickSort(0, n - 1, arr); 
 }
 
 // Funcao para gerar vetores aleatorios
 void generateRandomArray(int arr[], int n) {
     for (int i = 0; i < n; i++) {
-        arr[i] = rand() % 1000000; // Valores aleatorios até 1000000
+        arr[i] = rand() % 1000000; // Valores aleatorios ate 1000000
     }
 }
 
@@ -52,7 +52,7 @@ double measureTime(void (*sortFunc)(int[], int), int arr[], int n) {
     return ((double)(end - start)) / CLOCKS_PER_SEC;
 }
 
-// Função principal
+// Funcao principal
 int main() {
     int sizes[] = {50000, 100000, 150000, 200000, 250000, 300000, 350000, 400000};
     int numSizes = sizeof(sizes) / sizeof(sizes[0]);
@@ -64,7 +64,7 @@ int main() {
     for (int i = 0; i < numSizes; i++) {
         int n = sizes[i];
 
-        // Criar vetor aleatório para o QuickSort
+        // Criar vetor aleatorio para o QuickSort
         int* arrQuick = (int*)malloc(n * sizeof(int));
         generateRandomArray(arrQuick, n);
 
